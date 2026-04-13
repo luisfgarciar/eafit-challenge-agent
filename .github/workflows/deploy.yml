@@ -162,7 +162,7 @@ jobs:
           CHILD_DID=$(curl -sf "${CHILD_ADMIN_API}/v1/agent" | jq -r '.publicDid')
           echo "Example Agent DID: $CHILD_DID"
 
-          CHILD_PUBLIC_URL="https://example-agent.eafit.testnet.verana.network"
+          CHILD_PUBLIC_URL="${AGENT_PUBLIC_URL}"
           if has_linked_vp "$CHILD_PUBLIC_URL" "service"; then
             ok "Service credential already linked — skipping"
           else

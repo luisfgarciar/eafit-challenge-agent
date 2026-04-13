@@ -46,8 +46,8 @@ SERVICE_NAME="${SERVICE_NAME:-Example Agent}"
 USER_ACC="${USER_ACC:-org-vs-admin}"
 OUTPUT_FILE="${OUTPUT_FILE:-${REPO_ROOT}/ids.env}"
 
-# Organization
-ORG_VS_ADMIN_URL="${ORG_VS_ADMIN_URL:-http://localhost:3000}"
+# Organization (deployed eafit-challenge)
+ORG_VS_ADMIN_URL="${ORG_VS_ADMIN_URL:-https://admin.organization.eafit.testnet.verana.network}"
 ORG_VS_PUBLIC_URL="${ORG_VS_PUBLIC_URL:-}"
 
 # Service details
@@ -177,7 +177,7 @@ log "Step 3: Obtain Service credential from organization"
 # Verify organization admin API is reachable
 if ! curl -sf "${ORG_VS_ADMIN_URL}/api" > /dev/null 2>&1; then
   err "Organization admin API not reachable at ${ORG_VS_ADMIN_URL}"
-  err "Make sure the eafit-challenge organization is running and ORG_VS_ADMIN_URL is set correctly."
+  err "Make sure the eafit-challenge organization is deployed and reachable."
   exit 1
 fi
 ok "Organization admin API reachable: $ORG_VS_ADMIN_URL"

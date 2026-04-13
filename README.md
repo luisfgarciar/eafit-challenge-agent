@@ -4,6 +4,10 @@ An example AI agent with GitHub MCP integration, deployed as a Verifiable Servic
 
 ## Architecture
 
+This example agent is built with the [hologram-generic-ai-agent-vs](https://github.com/2060-io/hologram-generic-ai-agent-vs) container, which provides a ready-to-use AI chatbot with DIDComm messaging, verifiable credential authentication, and MCP tool integration.
+
+You can find other agent examples (GitHub Agent, Wise Agent, etc.) in the [hologram-verifiable-services](https://github.com/2060-io/hologram-verifiable-services) repository.
+
 This agent is a **child service** of the EAFIT Challenge organization. It:
 
 1. Receives a **Service credential** from the organization (proves it's a legitimate service)
@@ -37,8 +41,9 @@ This agent is a **child service** of the EAFIT Challenge organization. It:
 - Docker and Docker Compose
 - [ngrok](https://ngrok.com/) (authenticated)
 - `curl`, `jq`
-- The EAFIT Challenge **organization** running locally (admin API on port 3000)
 - An OpenAI API key
+
+The setup script connects to the deployed EAFIT organization at `admin.organization.eafit.testnet.verana.network` to obtain the Service credential. No local organization instance is required.
 
 ### Quick Start
 
@@ -53,6 +58,8 @@ export OPENAI_API_KEY=sk-...
 ./scripts/start.sh
 ```
 
+> Note: if you don't want to use an OPENAI_API_KEY, you can configure any other LLM, refer to [agent pack schema](https://github.com/2060-io/hologram-generic-ai-agent-vs/blob/main/docs/agent-pack-schema.md) for available options.
+
 ## Kubernetes Deployment (GitHub Actions)
 
 The `.github/workflows/deploy.yml` workflow deploys the agent to the shared EAFIT Challenge K8s cluster.
@@ -62,7 +69,7 @@ The `.github/workflows/deploy.yml` workflow deploys the agent to the shared EAFI
 | Secret | Description |
 | ------ | ----------- |
 | `OVH_KUBECONFIG` | Kubeconfig for the K8s cluster |
-| `K8S_NAMESPACE` | Target namespace |
+| `K8S_NAMESPACE` | Target namespace (ideally, use your team name) |
 | `EXAMPLE_AGENT_OPENAI_API_KEY` | OpenAI API key for the chatbot |
 | `EXAMPLE_AGENT_POSTGRES_PASSWORD` | PostgreSQL password |
 | `EXAMPLE_AGENT_MCP_CONFIG_ENCRYPTION_KEY` | Encryption key for MCP user configs |
@@ -73,12 +80,13 @@ The `.github/workflows/deploy.yml` workflow deploys the agent to the shared EAFI
 
 Run the workflow from the GitHub Actions tab with step `all` to deploy and obtain credentials.
 
-The agent will be available at: `https://example-agent.eafit.testnet.verana.network`
+The agent will be available at the URL configured in `AGENT_PUBLIC_URL` (see below).
 
 ## Configuration
 
 Key settings in `config.env`:
 
+- **`AGENT_PUBLIC_URL`** — Public URL of the deployed agent. For student teams, use the convention: `https://<agentname>.agents.<team_name>.teams.eafit.testnet.verana.network`
 - **`CREDENTIAL_DEFINITION_ID`** — AnonCreds credDef from the EAFIT Avatar service (hardcoded)
 - **`ORG_VS_PUBLIC_URL`** — Public URL of the EAFIT organization agent
 - **`SERVICE_NAME`** — Display name shown in the Service credential
