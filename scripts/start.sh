@@ -22,9 +22,11 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# Load configuration
+# Load and export configuration (set -a auto-exports all variables)
+set -a
 # shellcheck source=../config.env
 source "$REPO_ROOT/config.env"
+set +a
 
 echo "============================================="
 echo " Example Agent VS — Local Start"

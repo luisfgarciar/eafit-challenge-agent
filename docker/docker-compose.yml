@@ -14,7 +14,7 @@
 #   - OPENAI_API_KEY set in environment
 #
 # Usage:
-#   source config.env
+#   set -a && source config.env && set +a
 #   export NGROK_DOMAIN=your-domain.ngrok-free.app
 #   export OPENAI_API_KEY=sk-...
 #   docker compose -f docker/docker-compose.yml up
