@@ -3,8 +3,8 @@
 # This file is mounted into the chatbot container by docker-compose.
 # For K8s deployment, the agent pack is embedded in deployment.yaml.
 metadata:
-  id: example-agent
-  displayName: Example MCP Agent
+  id: eafit-team-a
+  displayName: Eafit MCP Agent (TEAM A)
   description: >-
     An example AI agent with GitHub MCP integration for the EAFIT Challenge,
     deployed via the Verana ecosystem.
@@ -67,8 +67,8 @@ languages:
       MCP_CONFIG_ABORTED: 'Configuración cancelada.'
 
 llm:
-  provider: openai
-  model: gpt-5.4-mini
+  provider: anthropic
+  model: claude-haiku-4-5-20251001
   temperature: 0.2
   agentPrompt: >-
     "You are a GitHub assistant agent.\n\
@@ -86,13 +86,11 @@ llm:
       - Safety: never disclose internal data not from a tool."
 
 rag:
-  provider: langchain
+  provider: vectorstore
   docsPath: /app/rag/docs
-  remoteUrls:
-    - https://raw.githubusercontent.com/verana-labs/eafit-challenge-agent-example/main/docs/README.md
   vectorStore:
     type: redis
-    indexName: example_agent
+    indexName: eafit_team_a
 
 memory:
   backend: redis
@@ -153,4 +151,4 @@ integrations:
     host: postgres
     user: example_agent_db
     password: changeme
-    dbName: example-agent
+    dbName: eafit-team-a

@@ -14,7 +14,7 @@ on:
         default: all
 
 jobs:
-  deploy-example-agent:
+  deploy-eafit-team-a:
     name: Deploy Example Agent VS
     runs-on: ubuntu-latest
     steps:
@@ -81,7 +81,7 @@ jobs:
             VSAGENT_DB_PWD="$(openssl rand -hex 16)"
             echo "::warning::EXAMPLE_AGENT_VSAGENT_DB_PASSWORD secret not set — using generated password"
           fi
-          kubectl create secret generic example-agent-db-secret \
+          kubectl create secret generic eafit-team-a-db-secret \
             --namespace "$NAMESPACE" \
             --from-literal=POSTGRES_PASSWORD="$VSAGENT_DB_PWD" \
             --dry-run=client -o yaml | kubectl apply -f -
@@ -89,7 +89,7 @@ jobs:
       - name: Create agent pack ConfigMap
         if: inputs.step == 'deploy' || inputs.step == 'all'
         run: |
-          kubectl create configmap example-agent-agent-pack \
+          kubectl create configmap eafit-team-a-agent-pack \
             --namespace "$CHART_NAMESPACE" \
             --from-file=agent-pack.yaml=agent-pack.yaml \
             --dry-run=client -o yaml | kubectl apply -f -
@@ -121,8 +121,8 @@ jobs:
       - name: Restart chatbot to pick up ConfigMap changes
         if: inputs.step == 'deploy' || inputs.step == 'all'
         run: |
-          kubectl rollout restart statefulset/example-agent-chart-chatbot -n "$CHART_NAMESPACE"
-          kubectl rollout status statefulset/example-agent-chart-chatbot -n "$CHART_NAMESPACE" --timeout=120s
+          kubectl rollout restart statefulset/eafit-team-a-chart-chatbot -n "$CHART_NAMESPACE"
+          kubectl rollout status statefulset/eafit-team-a-chart-chatbot -n "$CHART_NAMESPACE" --timeout=120s
 
       # -----------------------------------------------------------------------
       # GET-CREDENTIALS: Obtain Service credential from eafit-challenge organization
@@ -130,7 +130,7 @@ jobs:
       - name: Port-forward Example Agent VS Agent
         if: inputs.step == 'get-credentials' || inputs.step == 'all'
         run: |
-          kubectl port-forward -n "$CHART_NAMESPACE" "svc/example-agent" 3002:3000 &
+          kubectl port-forward -n "$CHART_NAMESPACE" "svc/eafit-team-a" 3002:3000 &
           echo "CHILD_PF_PID=$!" >> "$GITHUB_ENV"
           sleep 5
           curl -sf http://localhost:3002/v1/agent > /dev/null || {
@@ -199,6 +199,6 @@ jobs:
         run: |
           echo "## Example Agent VS" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "- **VS Agent:** https://example-agent.eafit.testnet.verana.network/.well-known/did.json" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **VS Agent:** https://eafit-team-a.eafit.testnet.verana.network/.well-known/did.json" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Network:** testnet" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Chart:** ${CHART_SOURCE:-}:${CHART_VERSION:-}" >> "$GITHUB_STEP_SUMMARY"

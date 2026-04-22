@@ -55,7 +55,7 @@ The chatbot uses **credential-based authentication** — you need an EAFIT Avata
 2. Navigate to https://avatar.eafit.testnet.verana.network/
 3. Scan the QR code and follow the prompts to obtain your credential
 
-You can verify it works by connecting to the deployed example agent at https://example-agent.eafit.testnet.verana.network/ — scan the QR code, authenticate with your credential, and chat with the bot.
+You can verify it works by connecting to the deployed example agent at https://eafit-team-a.eafit.testnet.verana.network/ — scan the QR code, authenticate with your credential, and chat with the bot.
 
 ### Quick Start
 
@@ -69,11 +69,34 @@ set +a
 
 # 2. Start the chatbot stack (chatbot + redis + postgres)
 export MCP_CONFIG_ENCRYPTION_KEY=$(openssl rand -hex 32)
-export OPENAI_API_KEY=sk-...
+export ANTHROPIC_API_KEY=sk-...
 ./scripts/start.sh
 ```
 
 > Note: if you don't want to use an OPENAI_API_KEY, you can configure any other LLM, refer to [agent pack schema](https://github.com/2060-io/hologram-generic-ai-agent-vs/blob/main/docs/agent-pack-schema.md) for available options.
+
+### Dockerfile and image build
+
+`start.sh` runs `docker compose up` which uses the `Dockerfile` only if the image hasn't been built yet.
+
+- **First run** — Docker builds the image from `Dockerfile` (clones upstream source and applies patches). This takes a few minutes.
+- **Subsequent runs** — `start.sh` reuses the cached image and starts immediately.
+
+To force a rebuild (e.g. after changing the Dockerfile or to pick up upstream changes):
+
+```bash
+docker compose -f docker/docker-compose.yml build --no-cache chatbot
+```
+
+### Connect with Hologram (local)
+
+Once the stack is running, open the VS Agent QR code in your browser and scan it with Hologram Messaging:
+
+```
+http://localhost:3010/v1/qr
+```
+
+> Port `3010` is the VS Agent admin port (`VS_AGENT_ADMIN_PORT` in `ids.env`). Open the URL in a browser, scan the QR code with Hologram, and the agent will send you a greeting.
 
 ## Kubernetes Deployment (GitHub Actions)
 

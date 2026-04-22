@@ -38,7 +38,7 @@ source "${REPO_ROOT}/common/common.sh"
 
 NETWORK="${NETWORK:-testnet}"
 VS_AGENT_IMAGE="${VS_AGENT_IMAGE:-veranalabs/vs-agent:latest}"
-VS_AGENT_CONTAINER_NAME="${VS_AGENT_CONTAINER_NAME:-example-agent}"
+VS_AGENT_CONTAINER_NAME="${VS_AGENT_CONTAINER_NAME:-eafit-team-a}"
 VS_AGENT_ADMIN_PORT="${VS_AGENT_ADMIN_PORT:-3010}"
 VS_AGENT_PUBLIC_PORT="${VS_AGENT_PUBLIC_PORT:-3011}"
 VS_AGENT_DATA_DIR="${VS_AGENT_DATA_DIR:-${REPO_ROOT}/data}"
@@ -113,7 +113,7 @@ fi
 log "Starting ngrok tunnel on port ${VS_AGENT_PUBLIC_PORT}..."
 pkill -f "ngrok http ${VS_AGENT_PUBLIC_PORT}" 2>/dev/null || true
 sleep 1
-ngrok http "$VS_AGENT_PUBLIC_PORT" --log=stdout > /tmp/ngrok-example-agent.log 2>&1 &
+ngrok http "$VS_AGENT_PUBLIC_PORT" --log=stdout > /tmp/ngrok-eafit-team-a.log 2>&1 &
 NGROK_PID=$!
 sleep 5
 

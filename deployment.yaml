@@ -13,7 +13,7 @@ chartVersion: v1.11.2
 global:
   domain: eafit.testnet.verana.network
 
-nameOverride: 'example-agent-chart'
+nameOverride: 'eafit-team-a-chart'
 
 # Credential definition ID for user authentication (injected from config.env by workflow)
 credentialDefinitionId: ''
@@ -52,7 +52,7 @@ postgres:
   secret:
     POSTGRES_PASSWORD: 'placeholder'
     POSTGRES_USER: 'example_agent_db'
-    POSTGRES_DB: 'example-agent'
+    POSTGRES_DB: 'eafit-team-a'
   resources:
     requests:
       cpu: '100m'
@@ -100,25 +100,25 @@ chatbot:
     - name: AGENT_MEMORY_WINDOW
       value: '20'
     - name: REDIS_URL
-      value: 'redis://example-agent-chart-redis.{{ .Release.Namespace }}:6379'
+      value: 'redis://eafit-team-a-chart-redis.{{ .Release.Namespace }}:6379'
     - name: VS_AGENT_ADMIN_URL
-      value: 'http://example-agent.{{ .Release.Namespace }}:3000'
+      value: 'http://eafit-team-a.{{ .Release.Namespace }}:3000'
     - name: POSTGRES_HOST
-      value: 'example-agent-chart-postgres.{{ .Release.Namespace }}'
+      value: 'eafit-team-a-chart-postgres.{{ .Release.Namespace }}'
     - name: CREDENTIAL_DEFINITION_ID
       value: '{{ .Values.credentialDefinitionId | default "" }}'
     - name: GITHUB_MCP_URL
       value: 'https://api.githubcopilot.com/mcp/'
   agentPack:
     enabled: true
-    name: example-agent
-    mountPath: /app/agent-packs/example-agent
+    name: eafit-team-a
+    mountPath: /app/agent-packs/eafit-team-a
     fileName: agent-pack.yaml
-    existingConfigMap: 'example-agent-agent-pack'
+    existingConfigMap: 'eafit-team-a-agent-pack'
   secret:
     POSTGRES_PASSWORD: 'placeholder'
     POSTGRES_USER: 'example_agent_db'
-    POSTGRES_DB_NAME: 'example-agent'
+    POSTGRES_DB_NAME: 'eafit-team-a'
   service:
     type: ClusterIP
     port: 3003
@@ -139,13 +139,13 @@ artemis:
 # === VS Agent ===
 vs-agent-chart:
   enabled: true
-  name: example-agent
+  name: eafit-team-a
   didcommLabel: 'Example Agent'
   didcommInvitationImageUrl: 'https://hologram.zone/images/github.svg'
-  eventsBaseUrl: http://example-agent-chart-chatbot:3003
+  eventsBaseUrl: http://eafit-team-a-chart-chatbot:3003
   ingress:
-    host: "example-agent.{{ .Values.global.domain }}"
-    tlsSecret: "example-agent.{{ .Values.global.domain }}-cert"
+    host: "eafit-team-a.{{ .Values.global.domain }}"
+    tlsSecret: "eafit-team-a.{{ .Values.global.domain }}-cert"
     public:
       enableCors: true
     private:
@@ -157,7 +157,7 @@ vs-agent-chart:
     - name: USE_CORS
       value: "true"
     - name: REDIS_HOST
-      value: "example-agent-chart-redis"
+      value: "eafit-team-a-chart-redis"
     - name: AGENT_LOG_LEVEL
       value: "3"
     - name: SELF_ISSUED_VTC_ORG_TYPE

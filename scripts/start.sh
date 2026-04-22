@@ -6,13 +6,13 @@
 # Prerequisites:
 #   - Example Agent VS Agent running (setup.sh completed)
 #   - config.env sourced
-#   - OPENAI_API_KEY set in environment
+#   - ANTHROPIC_API_KEY set in environment
 #   - NGROK_DOMAIN set in environment
 #
 # Usage:
 #   source config.env
 #   export NGROK_DOMAIN=your-domain.ngrok-free.app
-#   export OPENAI_API_KEY=sk-...
+#   export ANTHROPIC_API_KEY=sk-ant-...
 #   ./scripts/start.sh
 #
 # =============================================================================
@@ -38,8 +38,8 @@ echo "  Service name    : ${SERVICE_NAME}"
 echo "  NGROK_DOMAIN    : ${NGROK_DOMAIN:-<not set>}"
 echo ""
 
-if [ -z "${OPENAI_API_KEY:-}" ]; then
-  echo "WARNING: OPENAI_API_KEY is not set. The chatbot LLM will not work."
+if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
+  echo "WARNING: ANTHROPIC_API_KEY is not set. The chatbot LLM will not work."
 fi
 
 if [ -z "${NGROK_DOMAIN:-}" ]; then
