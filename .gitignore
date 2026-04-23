@@ -3,6 +3,7 @@ data/
 
 # Generated IDs
 ids.env
+team_a_kubeconfig.yaml
 
 # OS
 .DS_Store

@@ -144,13 +144,13 @@ vs-agent-chart:
   didcommInvitationImageUrl: 'https://hologram.zone/images/github.svg'
   eventsBaseUrl: http://example-agent-chart-chatbot:3003
   ingress:
-    host: "example-agent.{{ .Values.global.domain }}"
-    tlsSecret: "example-agent.{{ .Values.global.domain }}-cert"
-    public:
-      enableCors: true
-    private:
-      whitelistSourceRange: ""
-      host: ""
+    host: "agent-example.agents.team-a.teams.eafit.testnet.verana.network"
+  tlsSecret: "example-agent.{{ .Values.global.domain }}-cert"
+  public:
+    enableCors: true
+  private:
+    whitelistSourceRange: ""
+    host: ""
   extraEnv:
     - name: AGENT_WALLET_ID
       value: "Example Agent"

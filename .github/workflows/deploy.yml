@@ -106,7 +106,7 @@ jobs:
 
           helm upgrade --install "$RELEASE_NAME" "$CHART_SOURCE" \
             --version "$CHART_VERSION" \
-            --namespace "$CHART_NAMESPACE" --create-namespace \
+            --namespace "$CHART_NAMESPACE" \
             --values /tmp/helm-values.yaml \
             --set chatbot.secret.OPENAI_API_KEY="${{ secrets.EXAMPLE_AGENT_OPENAI_API_KEY }}" \
             --set chatbot.secret.MCP_CONFIG_ENCRYPTION_KEY="${{ secrets.EXAMPLE_AGENT_MCP_CONFIG_ENCRYPTION_KEY }}" \
@@ -139,22 +139,22 @@ jobs:
           }
           echo "Port-forward to Example Agent VS-Agent on :3002"
 
-      - name: Port-forward organization Agent
-        if: inputs.step == 'get-credentials' || inputs.step == 'all'
-        run: |
-          kubectl port-forward -n "$CHART_NAMESPACE" "svc/organization" 3000:3000 &
-          echo "ORG_PF_PID=$!" >> "$GITHUB_ENV"
-          sleep 5
-          curl -sf http://localhost:3000/v1/agent > /dev/null || {
-            echo "::error::Port-forward to organization-Agent failed"
-            exit 1
-          }
-          echo "Port-forward to organization-Agent on :3000"
+      # - name: Port-forward organization Agent
+      #   if: inputs.step == 'get-credentials' || inputs.step == 'all'
+      #   run: |
+      #     kubectl port-forward -n "$CHART_NAMESPACE" "svc/organization" 3000:3000 &
+      #     echo "ORG_PF_PID=$!" >> "$GITHUB_ENV"
+      #     sleep 5
+      #     curl -sf http://localhost:3000/v1/agent > /dev/null || {
+      #       echo "::error::Port-forward to organization-Agent failed"
+      #       exit 1
+      #     }
+      #     echo "Port-forward to organization-Agent on :3000"
 
       - name: Get Service credential
         if: inputs.step == 'get-credentials' || inputs.step == 'all'
         run: |
-          ORG_ADMIN_API="http://localhost:3000"
+          ORG_ADMIN_API="${ORG_VS_ADMIN_URL}"
           CHILD_ADMIN_API="http://localhost:3002"
           source common/common.sh
           set_network_vars "$NETWORK"
