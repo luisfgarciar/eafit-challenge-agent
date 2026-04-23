@@ -144,7 +144,7 @@ vs-agent-chart:
   didcommInvitationImageUrl: 'https://hologram.zone/images/github.svg'
   eventsBaseUrl: http://example-agent-chart-chatbot:3003
   ingress:
-    host: "agent-example.agents.team-a.teams.eafit.testnet.verana.network"
+    host: "agent-team-a1.agents.team-a.teams.eafit.testnet.verana.network"
   tlsSecret: "example-agent.{{ .Values.global.domain }}-cert"
   public:
     enableCors: true
